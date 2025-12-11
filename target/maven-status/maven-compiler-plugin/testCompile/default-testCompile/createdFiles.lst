@@ -1,6 +1,9 @@
+com\ecommerce\config\DriverFactory.class
 com\ecommerce\pages\CartPage.class
 com\ecommerce\tests\EcommerceFlowTest.class
 com\ecommerce\pages\SearchResultsPage.class
+com\ecommerce\config\TestConfig.class
 com\ecommerce\pages\ProductPage.class
 com\ecommerce\pages\CheckoutPage.class
+com\ecommerce\tests\BaseTest.class
 com\ecommerce\pages\HomePage.class

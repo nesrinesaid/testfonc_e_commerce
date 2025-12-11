@@ -2,6 +2,7 @@ package com.ecommerce.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -9,22 +10,85 @@ public class HomePage {
     private final WebDriver driver;
     private final WebDriverWait wait;
 
-    private final By searchInput = By.id("search");
-    private final By searchButton = By.cssSelector("button[title='Search']");
 
     public HomePage(WebDriver driver, WebDriverWait wait) {
         this.driver = driver;
         this.wait = wait;
     }
 
+    private WebElement findSearchInputElement() {
+        // Try multiple selectors in order of likelihood
+        By[] selectors = {
+            By.id("search"),
+            By.cssSelector("input#search"),
+            By.cssSelector("form#search_mini_form input#search"),
+            By.cssSelector("input[name='q']"),
+            By.cssSelector("input[type='search']"),
+            By.cssSelector("input[placeholder*='Search']"),
+            By.cssSelector("input[aria-label*='Search']"),
+            By.cssSelector(".block-search input"),
+            By.xpath("//input[@id='search']"),
+            By.xpath("//input[contains(@placeholder, 'Search')]")
+        };
+        
+        for (By selector : selectors) {
+            try {
+                // Wait for element to be present and visible
+                WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(selector));
+                if (element != null && element.isDisplayed()) {
+                    return element;
+                }
+            } catch (Exception e) {
+                // Continue to next selector
+            }
+        }
+        throw new org.openqa.selenium.NoSuchElementException("Could not find search input element with any of the tried selectors");
+    }
+
     public boolean isLoaded() {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(searchInput)).isDisplayed();
+        try {
+            WebElement element = findSearchInputElement();
+            return element != null && element.isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public SearchResultsPage search(String query) {
-        wait.until(ExpectedConditions.elementToBeClickable(searchInput)).clear();
-        driver.findElement(searchInput).sendKeys(query);
-        driver.findElement(searchButton).click();
+        // Find the search input element
+        WebElement searchElement = findSearchInputElement();
+        wait.until(ExpectedConditions.elementToBeClickable(searchElement));
+        searchElement.clear();
+        searchElement.sendKeys(query);
+        
+        // Try multiple selectors for search button
+        By[] buttonSelectors = {
+            By.cssSelector("button[title='Search']"),
+            By.cssSelector("button[type='submit'][aria-label*='Search']"),
+            By.cssSelector("button.action.search"),
+            By.cssSelector("form#search_mini_form button[type='submit']"),
+            By.xpath("//button[@title='Search']"),
+            By.xpath("//button[contains(@class, 'search')]"),
+            By.xpath("//form[@id='search_mini_form']//button")
+        };
+        
+        boolean buttonClicked = false;
+        for (By buttonSelector : buttonSelectors) {
+            try {
+                WebElement button = wait.until(ExpectedConditions.elementToBeClickable(buttonSelector));
+                button.click();
+                buttonClicked = true;
+                break;
+            } catch (Exception e) {
+                // Continue to next selector
+            }
+        }
+        
+        if (!buttonClicked) {
+            // Fallback: try pressing Enter on the search input
+            searchElement.sendKeys(org.openqa.selenium.Keys.ENTER);
+        }
+        
         return new SearchResultsPage(driver, wait);
     }
 

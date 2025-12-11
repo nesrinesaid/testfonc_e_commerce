@@ -17,8 +17,62 @@ public abstract class BaseTest {
     public void setUp() {
         driver = DriverFactory.createDriver();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(TestConfig.getImplicitWaitSeconds()));
+        driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(30));
         driver.get(TestConfig.getBaseUrl());
         wait = new WebDriverWait(driver, Duration.ofSeconds(TestConfig.getExplicitWaitSeconds()));
+        
+        // Wait for page to be ready and JavaScript to finish
+        try {
+            wait.until(webDriver -> {
+                if (webDriver == null) return false;
+                org.openqa.selenium.JavascriptExecutor js = (org.openqa.selenium.JavascriptExecutor) webDriver;
+                String readyState = (String) js.executeScript("return document.readyState");
+                if (!"complete".equals(readyState)) return false;
+                // Also check if jQuery is loaded and active (common in Magento)
+                try {
+                    Object jQueryActive = js.executeScript("return typeof jQuery !== 'undefined' ? jQuery.active : 0");
+                    if (jQueryActive instanceof Number && ((Number) jQueryActive).intValue() > 0) {
+                        return false; // jQuery AJAX still active
+                    }
+                } catch (Exception ignored) {
+                    // jQuery might not be present, that's okay
+                }
+                return true;
+            });
+            // Additional small delay to ensure all elements are rendered
+            Thread.sleep(1000);
+        } catch (Exception e) {
+            // Continue even if readyState check fails
+        }
+        
+        // Dismiss any cookie consent banners or modals that might block elements
+        try {
+            // Try to find and close common cookie consent elements
+            String[] cookieSelectors = {
+                "button[id*='cookie']",
+                "button[class*='cookie']",
+                "button[id*='accept']",
+                "button[class*='accept']",
+                "a[id*='cookie']",
+                ".cookie-banner button",
+                "#cookie-banner button"
+            };
+            
+            for (String selector : cookieSelectors) {
+                try {
+                    var elements = driver.findElements(org.openqa.selenium.By.cssSelector(selector));
+                    if (!elements.isEmpty() && elements.get(0).isDisplayed()) {
+                        elements.get(0).click();
+                        Thread.sleep(500); // Brief pause after clicking
+                        break;
+                    }
+                } catch (Exception ignored) {
+                    // Continue to next selector
+                }
+            }
+        } catch (Exception e) {
+            // Ignore if cookie banner handling fails
+        }
     }
 
     @AfterMethod(alwaysRun = true)

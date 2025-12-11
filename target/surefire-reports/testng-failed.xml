@@ -9,8 +9,8 @@
           <include name="guestCheckoutFlow"/>
           <include name="setUp"/>
           <include name="tearDown"/>
-          <include name="navigationBetweenMainSections"/>
           <include name="addProductToCart"/>
+          <include name="navigationBetweenMainSections"/>
         </methods>
       </class> <!-- com.ecommerce.tests.EcommerceFlowTest -->
     </classes>

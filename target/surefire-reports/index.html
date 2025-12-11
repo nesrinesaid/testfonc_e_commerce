@@ -50,7 +50,7 @@
               <ul>
                 <li>
                   <a href="#" panel-name="test-xml-Ecommerce_Functional_Suite" class="navigator-link ">
-                    <span>C:\Users\admin\testfonc_e_commerce\src\test\resources\testng.xml</span>
+                    <span>C:\Users\admin\eclipse-workspace\testfonc_e_commerce\src\test\resources\testng.xml</span>
                   </a> <!-- navigator-link  -->
                 </li>
                 <li>
@@ -153,15 +153,13 @@
                   <a name="addProductToCart">
                   </a> <!-- addProductToCart -->
                   <span class="method-name">addProductToCart</span>
-                  <div class="stack-trace">org.openqa.selenium.TimeoutException: Expected condition failed: waiting for element to be clickable: By.id: search (tried for 15 second(s) with 500 milliseconds interval)
+                  <div class="stack-trace">org.openqa.selenium.NoSuchElementException: Could not find search input element with any of the tried selectors
+For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception
 Build info: version: &apos;4.25.0&apos;, revision: &apos;8a8aea2337&apos;
 System info: os.name: &apos;Windows 10&apos;, os.arch: &apos;amd64&apos;, os.version: &apos;10.0&apos;, java.version: &apos;25.0.1&apos;
-Driver info: org.openqa.selenium.chrome.ChromeDriver
-Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 143.0.7499.41, chrome: {chromedriverVersion: 143.0.7499.40 (c23ff452476d..., userDataDir: C:\Users\admin\AppData\Loca...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:50786}, goog:processID: 11708, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:50786/devtoo..., se:cdpVersion: 143.0.7499.41, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
-Session ID: a4e8db062e0bc776bdb98f2c2eb090df
-	at org.openqa.selenium.support.ui.WebDriverWait.timeoutException(WebDriverWait.java:84)
-	at org.openqa.selenium.support.ui.FluentWait.until(FluentWait.java:228)
-	at com.ecommerce.pages.HomePage.search(HomePage.java:25)
+Driver info: driver.version: unknown
+	at com.ecommerce.pages.HomePage.findSearchInputElement(HomePage.java:45)
+	at com.ecommerce.pages.HomePage.search(HomePage.java:59)
 	at com.ecommerce.tests.EcommerceFlowTest.addProductToCart(EcommerceFlowTest.java:34)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
 ... Removed 29 stack frames
@@ -175,18 +173,10 @@ Session ID: a4e8db062e0bc776bdb98f2c2eb090df
                   <a name="navigationBetweenMainSections">
                   </a> <!-- navigationBetweenMainSections -->
                   <span class="method-name">navigationBetweenMainSections</span>
-                  <div class="stack-trace">org.openqa.selenium.TimeoutException: Expected condition failed: waiting for visibility of element located by By.id: search (tried for 15 second(s) with 500 milliseconds interval)
-Build info: version: &apos;4.25.0&apos;, revision: &apos;8a8aea2337&apos;
-System info: os.name: &apos;Windows 10&apos;, os.arch: &apos;amd64&apos;, os.version: &apos;10.0&apos;, java.version: &apos;25.0.1&apos;
-Driver info: org.openqa.selenium.chrome.ChromeDriver
-Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 143.0.7499.41, chrome: {chromedriverVersion: 143.0.7499.40 (c23ff452476d..., userDataDir: C:\Users\admin\AppData\Loca...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:50908}, goog:processID: 12872, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:50908/devtoo..., se:cdpVersion: 143.0.7499.41, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
-Session ID: c5873b319cbeda7e183088436239c424
-	at org.openqa.selenium.support.ui.WebDriverWait.timeoutException(WebDriverWait.java:84)
-	at org.openqa.selenium.support.ui.FluentWait.until(FluentWait.java:228)
-	at com.ecommerce.pages.HomePage.isLoaded(HomePage.java:21)
+                  <div class="stack-trace">java.lang.AssertionError: La page d&apos;accueil n&apos;est pas chargée. expected [true] but found [false]
 	at com.ecommerce.tests.EcommerceFlowTest.navigationBetweenMainSections(EcommerceFlowTest.java:12)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
-... Removed 29 stack frames
+... Removed 32 stack frames
 </div> <!-- stack-trace -->
                   <em>
 (Navigation entre pages principales)                  </em>
@@ -197,63 +187,10 @@ Session ID: c5873b319cbeda7e183088436239c424
                   <a name="searchProduct">
                   </a> <!-- searchProduct -->
                   <span class="method-name">searchProduct</span>
-                  <div class="stack-trace">org.openqa.selenium.remote.UnreachableBrowserException: Error communicating with the remote browser. It may have died.
-Build info: version: &apos;4.25.0&apos;, revision: &apos;8a8aea2337&apos;
-System info: os.name: &apos;Windows 10&apos;, os.arch: &apos;amd64&apos;, os.version: &apos;10.0&apos;, java.version: &apos;25.0.1&apos;
-Driver info: org.openqa.selenium.chrome.ChromeDriver
-Command: [88958bb529c77f03704f69b132f5d4e3, findElement [value, using]]
-Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 143.0.7499.41, chrome: {chromedriverVersion: 143.0.7499.40 (c23ff452476d..., userDataDir: C:\Users\admin\AppData\Loca...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:50957}, goog:processID: 11032, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:50957/devtoo..., se:cdpVersion: 143.0.7499.41, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
-Session ID: 88958bb529c77f03704f69b132f5d4e3
-	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:572)
-	at org.openqa.selenium.remote.ElementLocation$ElementFinder$2.findElement(ElementLocation.java:165)
-	at org.openqa.selenium.remote.ElementLocation.findElement(ElementLocation.java:66)
-	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:368)
-	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:362)
-	at org.openqa.selenium.support.ui.ExpectedConditions$7.apply(ExpectedConditions.java:194)
-	at org.openqa.selenium.support.ui.ExpectedConditions$7.apply(ExpectedConditions.java:190)
-	at org.openqa.selenium.support.ui.FluentWait.until(FluentWait.java:203)
-	at com.ecommerce.pages.HomePage.isLoaded(HomePage.java:21)
+                  <div class="stack-trace">java.lang.AssertionError: La page d&apos;accueil n&apos;est pas chargée. expected [true] but found [false]
 	at com.ecommerce.tests.EcommerceFlowTest.searchProduct(EcommerceFlowTest.java:25)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
-Caused by: java.io.UncheckedIOException: java.io.IOException: HTTP/1.1 header parser received no bytes
-	at org.openqa.selenium.remote.http.jdk.JdkHttpClient.execute0(JdkHttpClient.java:458)
-	at org.openqa.selenium.remote.http.AddSeleniumUserAgent.lambda$apply$0(AddSeleniumUserAgent.java:42)
-	at org.openqa.selenium.remote.http.Filter.lambda$andFinally$1(Filter.java:55)
-	at org.openqa.selenium.remote.http.jdk.JdkHttpClient.execute(JdkHttpClient.java:374)
-	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:187)
-	at org.openqa.selenium.remote.service.DriverCommandExecutor.invokeExecute(DriverCommandExecutor.java:216)
-	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:174)
-	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:545)
-	... 39 more
-Caused by: java.io.IOException: HTTP/1.1 header parser received no bytes
-	at java.net.http/jdk.internal.net.http.common.Utils.wrapWithExtraDetail(Utils.java:456)
-	at java.net.http/jdk.internal.net.http.Http1Response$HeadersReader.onReadError(Http1Response.java:591)
-	at java.net.http/jdk.internal.net.http.Http1AsyncReceiver.checkForErrors(Http1AsyncReceiver.java:304)
-	at java.net.http/jdk.internal.net.http.Http1AsyncReceiver.flush(Http1AsyncReceiver.java:270)
-	at java.net.http/jdk.internal.net.http.common.SequentialScheduler$LockingRestartableTask.run(SequentialScheduler.java:182)
-	at java.net.http/jdk.internal.net.http.common.SequentialScheduler$CompleteRestartableTask.run(SequentialScheduler.java:149)
-	at java.net.http/jdk.internal.net.http.common.SequentialScheduler$SchedulableTask.run(SequentialScheduler.java:207)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614)
-	at java.base/java.lang.Thread.run(Thread.java:1474)
-Caused by: java.net.SocketException: Connection reset
-	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:399)
-	at java.base/sun.nio.ch.SocketChannelImpl.implRead(SocketChannelImpl.java:431)
-	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:489)
-	at java.net.http/jdk.internal.net.http.SocketTube.readAvailable(SocketTube.java:1215)
-	at java.net.http/jdk.internal.net.http.SocketTube$InternalReadPublisher$InternalReadSubscription.read(SocketTube.java:871)
-	at java.net.http/jdk.internal.net.http.SocketTube$SocketFlowTask.run(SocketTube.java:181)
-	at java.net.http/jdk.internal.net.http.common.SequentialScheduler$SchedulableTask.run(SequentialScheduler.java:207)
-	at java.net.http/jdk.internal.net.http.common.SequentialScheduler.runOrSchedule(SequentialScheduler.java:280)
-	at java.net.http/jdk.internal.net.http.common.SequentialScheduler.runOrSchedule(SequentialScheduler.java:233)
-	at java.net.http/jdk.internal.net.http.SocketTube$InternalReadPublisher$InternalReadSubscription.signalReadable(SocketTube.java:812)
-	at java.net.http/jdk.internal.net.http.SocketTube$InternalReadPublisher$ReadEvent.signalEvent(SocketTube.java:1002)
-	at java.net.http/jdk.internal.net.http.SocketTube$SocketFlowEvent.handle(SocketTube.java:253)
-	at java.net.http/jdk.internal.net.http.HttpClientImpl$SelectorManager.handleEvent(HttpClientImpl.java:1439)
-	at java.net.http/jdk.internal.net.http.HttpClientImpl$SelectorManager.lambda$run$3(HttpClientImpl.java:1384)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
-	at java.net.http/jdk.internal.net.http.HttpClientImpl$SelectorManager.run(HttpClientImpl.java:1384)
-... Removed 29 stack frames
+... Removed 32 stack frames
 </div> <!-- stack-trace -->
                   <em>
 (Recherche d'un produit et vérification des résultats)                  </em>
@@ -272,8 +209,8 @@ Caused by: java.net.SocketException: Connection reset
                   <a name="guestCheckoutFlow">
                   </a> <!-- guestCheckoutFlow -->
                   <span class="method-name">guestCheckoutFlow</span>
-                  <div class="stack-trace">java.lang.Throwable: Method com.ecommerce.tests.EcommerceFlowTest.guestCheckoutFlow() on instance com.ecommerce.tests.EcommerceFlowTest@54c562f7 depends on not successfully finished methods 
-[com.ecommerce.tests.EcommerceFlowTest.addProductToCart() on instance com.ecommerce.tests.EcommerceFlowTest@54c562f7]
+                  <div class="stack-trace">java.lang.Throwable: Method com.ecommerce.tests.EcommerceFlowTest.guestCheckoutFlow() on instance com.ecommerce.tests.EcommerceFlowTest@2b6faea6 depends on not successfully finished methods 
+[com.ecommerce.tests.EcommerceFlowTest.addProductToCart() on instance com.ecommerce.tests.EcommerceFlowTest@2b6faea6]
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
 ... Removed 22 stack frames
 </div> <!-- stack-trace -->
@@ -286,7 +223,7 @@ Caused by: java.net.SocketException: Connection reset
         </div> <!-- panel Ecommerce_Functional_Suite -->
         <div panel-name="test-xml-Ecommerce_Functional_Suite" class="panel">
           <div class="main-panel-header rounded-window-top">
-            <span class="header-content">C:\Users\admin\testfonc_e_commerce\src\test\resources\testng.xml</span>
+            <span class="header-content">C:\Users\admin\eclipse-workspace\testfonc_e_commerce\src\test\resources\testng.xml</span>
           </div> <!-- main-panel-header rounded-window-top -->
           <div class="main-panel-content rounded-window-bottom">
             <pre>
@@ -339,15 +276,15 @@ data.addRows(4);
 data.setCell(0, 0, 0)
 data.setCell(0, 1, 'addProductToCart')
 data.setCell(0, 2, 'com.ecommerce.tests.EcommerceFlowTest')
-data.setCell(0, 3, 16187);
+data.setCell(0, 3, 69);
 data.setCell(1, 0, 1)
 data.setCell(1, 1, 'navigationBetweenMainSections')
 data.setCell(1, 2, 'com.ecommerce.tests.EcommerceFlowTest')
-data.setCell(1, 3, 16144);
+data.setCell(1, 3, 48);
 data.setCell(2, 0, 2)
 data.setCell(2, 1, 'searchProduct')
 data.setCell(2, 2, 'com.ecommerce.tests.EcommerceFlowTest')
-data.setCell(2, 3, 15178);
+data.setCell(2, 3, 41);
 data.setCell(3, 0, 3)
 data.setCell(3, 1, 'guestCheckoutFlow')
 data.setCell(3, 2, 'com.ecommerce.tests.EcommerceFlowTest')
@@ -356,7 +293,7 @@ window.suiteTableData['Ecommerce_Functional_Suite']= { tableData: data, tableDiv
 return data;
 }
               </script>
-              <span class="suite-total-time">Total running time: 47 seconds</span>
+              <span class="suite-total-time">Total running time: 158 ms</span>
               <div id="times-div-Ecommerce_Functional_Suite">
               </div> <!-- times-div-Ecommerce_Functional_Suite -->
             </div> <!-- times-div -->
@@ -391,39 +328,39 @@ return data;
                 <img src="failed.png">
                 </img>
                 <span class="method-name">addProductToCart</span>
-                <span class="method-start">105923 ms</span>
+                <span class="method-start">48358 ms</span>
               </div> <!-- test-method -->
               <div class="configuration-method after">
                 <span class="method-name">tearDown</span>
-                <span class="method-start">122192 ms</span>
+                <span class="method-start">48441 ms</span>
               </div> <!-- configuration-method after -->
               <div class="configuration-method before">
                 <span class="method-name">setUp</span>
-                <span class="method-start">122627 ms</span>
+                <span class="method-start">48458 ms</span>
               </div> <!-- configuration-method before -->
               <div class="test-method">
                 <img src="failed.png">
                 </img>
                 <span class="method-name">navigationBetweenMainSections</span>
-                <span class="method-start">137840 ms</span>
+                <span class="method-start">76798 ms</span>
               </div> <!-- test-method -->
               <div class="configuration-method after">
                 <span class="method-name">tearDown</span>
-                <span class="method-start">153985 ms</span>
+                <span class="method-start">76849 ms</span>
               </div> <!-- configuration-method after -->
               <div class="configuration-method before">
                 <span class="method-name">setUp</span>
-                <span class="method-start">154235 ms</span>
+                <span class="method-start">76859 ms</span>
               </div> <!-- configuration-method before -->
               <div class="test-method">
                 <img src="failed.png">
                 </img>
                 <span class="method-name">searchProduct</span>
-                <span class="method-start">163735 ms</span>
+                <span class="method-start">119735 ms</span>
               </div> <!-- test-method -->
               <div class="configuration-method after">
                 <span class="method-name">tearDown</span>
-                <span class="method-start">178916 ms</span>
+                <span class="method-start">119778 ms</span>
               </div> <!-- configuration-method after -->
           </div> <!-- main-panel-content rounded-window-bottom -->
         </div> <!-- panel -->
