@@ -73,23 +73,25 @@ public class ProductPage {
             List<WebElement> sizes = driver.findElements(sizeOptions);
             if (!sizes.isEmpty()) {
                 // Select first available size that is not disabled
-                for (int i = 0; i < sizes.size(); i++) {
-                    WebElement size = sizes.get(i);
+                boolean sizeSelected = false;
+                for (WebElement size : sizes) {
                     if (size.isDisplayed() && size.isEnabled()) {
                         WebElement clickableSize = wait.until(ExpectedConditions.elementToBeClickable(size));
                         clickableSize.click();
-                        // Wait for any size option to be selected (avoiding stale reference)
-                        final int selectedIndex = i;
-                        wait.until(driver -> {
-                            List<WebElement> updatedSizes = driver.findElements(sizeOptions);
-                            if (selectedIndex < updatedSizes.size()) {
-                                String selectedClass = updatedSizes.get(selectedIndex).getAttribute("class");
-                                return selectedClass != null && selectedClass.contains("selected");
-                            }
-                            return false;
-                        });
+                        sizeSelected = true;
                         break;
                     }
+                }
+                
+                // If we clicked a size, wait for at least one size to have 'selected' class
+                if (sizeSelected) {
+                    wait.until(driver -> {
+                        List<WebElement> updatedSizes = driver.findElements(sizeOptions);
+                        return updatedSizes.stream().anyMatch(s -> {
+                            String classAttr = s.getAttribute("class");
+                            return classAttr != null && classAttr.contains("selected");
+                        });
+                    });
                 }
             }
         } catch (TimeoutException e) {
@@ -108,23 +110,25 @@ public class ProductPage {
             List<WebElement> colors = driver.findElements(colorOptions);
             if (!colors.isEmpty()) {
                 // Select first available color that is not disabled
-                for (int i = 0; i < colors.size(); i++) {
-                    WebElement color = colors.get(i);
+                boolean colorSelected = false;
+                for (WebElement color : colors) {
                     if (color.isDisplayed() && color.isEnabled()) {
                         WebElement clickableColor = wait.until(ExpectedConditions.elementToBeClickable(color));
                         clickableColor.click();
-                        // Wait for any color option to be selected (avoiding stale reference)
-                        final int selectedIndex = i;
-                        wait.until(driver -> {
-                            List<WebElement> updatedColors = driver.findElements(colorOptions);
-                            if (selectedIndex < updatedColors.size()) {
-                                String selectedClass = updatedColors.get(selectedIndex).getAttribute("class");
-                                return selectedClass != null && selectedClass.contains("selected");
-                            }
-                            return false;
-                        });
+                        colorSelected = true;
                         break;
                     }
+                }
+                
+                // If we clicked a color, wait for at least one color to have 'selected' class
+                if (colorSelected) {
+                    wait.until(driver -> {
+                        List<WebElement> updatedColors = driver.findElements(colorOptions);
+                        return updatedColors.stream().anyMatch(c -> {
+                            String classAttr = c.getAttribute("class");
+                            return classAttr != null && classAttr.contains("selected");
+                        });
+                    });
                 }
             }
         } catch (TimeoutException e) {

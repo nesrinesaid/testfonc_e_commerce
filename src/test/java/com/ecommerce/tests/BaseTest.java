@@ -58,11 +58,12 @@ public abstract class BaseTest {
             
             for (String selector : cookieSelectors) {
                 try {
-                    var elements = driver.findElements(org.openqa.selenium.By.cssSelector(selector));
+                    By cookieBy = org.openqa.selenium.By.cssSelector(selector);
+                    var elements = driver.findElements(cookieBy);
                     if (!elements.isEmpty() && elements.get(0).isDisplayed()) {
                         elements.get(0).click();
-                        // Wait for the element to disappear after clicking
-                        wait.until(org.openqa.selenium.support.ui.ExpectedConditions.invisibilityOf(elements.get(0)));
+                        // Wait for the element to disappear using the selector, not the cached element
+                        wait.until(org.openqa.selenium.support.ui.ExpectedConditions.invisibilityOfElementLocated(cookieBy));
                         break;
                     }
                 } catch (Exception ignored) {
