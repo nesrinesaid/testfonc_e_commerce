@@ -269,6 +269,33 @@ For questions or issues, please open an issue in the GitHub repository.
 
 ## Version History
 
+- **0.1.1-SNAPSHOT**: Selector Updates for Magento 2 Compatibility (Current)
+  - **Fixed HomePage.java selectors**:
+    - Updated search input selector with Magento 2 specific fallbacks
+    - Improved search button selector for better compatibility
+    - Enhanced element detection with multiple fallback strategies
+  - **Updated ProductPage.java selectors**:
+    - Fixed size and color selection with improved CSS selectors
+    - Added multiple fallback selectors for add-to-cart button
+    - Enhanced cart toast/notification detection with data-bind support
+    - Improved mini-cart and view cart link selectors
+  - **Enhanced CartPage.java selectors**:
+    - Updated cart items selector to support multiple HTML structures
+    - Added fallback selectors for proceed to checkout button
+  - **Improved CheckoutPage.java**:
+    - Enhanced all form field selectors with CSS-based approach
+    - Fixed shipping method selector to avoid dynamic `ko_unique` IDs
+    - Added multiple fallbacks for next/continue and place order buttons
+    - Improved order confirmation detection
+    - Enhanced isLoaded() method with fallback checks
+    - Better error handling in form filling methods
+    - Added scroll-into-view for place order button
+  - **Best practices applied**:
+    - Prioritized stable selectors (IDs > CSS classes > XPath)
+    - Avoided dynamic IDs and attributes
+    - Added multiple fallback selectors for reliability
+    - Improved wait conditions and timing
+    
 - **0.1.0-SNAPSHOT**: Initial release
   - Basic e-commerce test flows
   - Page Object Model implementation
