@@ -24,7 +24,7 @@ public class CheckoutPage {
     private final By postcodeField = By.cssSelector("input[name='postcode']");
     private final By phoneField = By.cssSelector("input[name='telephone']");
     // Updated to use stable selector instead of dynamic ko_unique_*
-    private final By shippingMethodRadio = By.cssSelector("input[type='radio'][name='shipping_method'], tr.row input[type='radio']");
+    private final By shippingMethodRadio = By.cssSelector("input[type='radio'][name='shipping_method'], tr.row input[type='radio'][name*='shipping']");
     private final By nextButton = By.cssSelector("button.continue, button.action.continue");
     private final By paymentSection = By.cssSelector("#payment, div.payment-method");
     private final By placeOrderButton = By.cssSelector("button.action.primary.checkout, button[title='Place Order']");
@@ -71,17 +71,14 @@ public class CheckoutPage {
             Select country = new Select(countrySelect);
             country.selectByVisibleText("France");
             
-            // Wait for state dropdown to populate after country selection
-            Thread.sleep(2000);
-            
-            // Select state/region if available
+            // Wait for state dropdown to become visible after country selection (AJAX update)
             try {
-                WebElement stateSelect = driver.findElement(stateDropdown);
-                if (stateSelect.isDisplayed()) {
-                    Select state = new Select(stateSelect);
-                    if (state.getOptions().size() > 1) {
-                        state.selectByIndex(1);
-                    }
+                WebElement stateSelect = wait.until(ExpectedConditions.visibilityOfElementLocated(stateDropdown));
+                Select state = new Select(stateSelect);
+                // Wait for options to populate
+                wait.until(driver -> state.getOptions().size() > 1);
+                if (state.getOptions().size() > 1) {
+                    state.selectByIndex(1);
                 }
             } catch (Exception e) {
                 System.out.println("State selection not available or not required");
@@ -90,8 +87,8 @@ public class CheckoutPage {
             driver.findElement(postcodeField).sendKeys("75001");
             driver.findElement(phoneField).sendKeys("0102030405");
             
-            // Wait for shipping methods to load
-            Thread.sleep(2000);
+            // Wait for shipping methods to load (they appear after address is complete)
+            wait.until(ExpectedConditions.presenceOfElementLocated(shippingMethodRadio));
         } catch (Exception e) {
             throw new RuntimeException("Failed to fill guest shipping form: " + e.getMessage(), e);
         }
@@ -99,9 +96,8 @@ public class CheckoutPage {
 
     public void selectShippingMethodAndContinue() {
         try {
-            // Wait for shipping methods to load
+            // Wait for shipping methods to load and be clickable
             wait.until(ExpectedConditions.presenceOfElementLocated(shippingMethodRadio));
-            Thread.sleep(1500); // Additional wait for shipping methods to fully load
             
             List<WebElement> shippingMethods = driver.findElements(shippingMethodRadio);
             if (!shippingMethods.isEmpty()) {
@@ -120,16 +116,12 @@ public class CheckoutPage {
                 throw new RuntimeException("No shipping methods available");
             }
             
-            // Wait for next button to be enabled
-            Thread.sleep(1000);
-            
-            // Click next/continue button
+            // Wait for next button to be enabled and clickable
             WebElement nextBtn = wait.until(ExpectedConditions.elementToBeClickable(nextButton));
             nextBtn.click();
             
-            // Wait for payment section to load
+            // Wait for payment section to load and be visible
             wait.until(ExpectedConditions.visibilityOfElementLocated(paymentSection));
-            Thread.sleep(1000); // Additional wait for payment section to fully render
         } catch (TimeoutException e) {
             throw new RuntimeException("Failed to select shipping method: " + e.getMessage(), e);
         } catch (Exception e) {
@@ -140,12 +132,13 @@ public class CheckoutPage {
     public void placeOrder() {
         try {
             // Wait for place order button to be clickable
-            Thread.sleep(1000); // Brief wait for page to stabilize
             WebElement placeOrderBtn = wait.until(ExpectedConditions.elementToBeClickable(placeOrderButton));
             
-            // Scroll to button if needed
-            ((org.openqa.selenium.JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", placeOrderBtn);
-            Thread.sleep(500);
+            // Scroll to button if needed to ensure it's in viewport
+            ((org.openqa.selenium.JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", placeOrderBtn);
+            
+            // Wait for scroll to complete and button to be stable
+            wait.until(ExpectedConditions.elementToBeClickable(placeOrderBtn));
             
             placeOrderBtn.click();
         } catch (TimeoutException e) {
