@@ -73,14 +73,20 @@ public class ProductPage {
             List<WebElement> sizes = driver.findElements(sizeOptions);
             if (!sizes.isEmpty()) {
                 // Select first available size that is not disabled
-                for (WebElement size : sizes) {
+                for (int i = 0; i < sizes.size(); i++) {
+                    WebElement size = sizes.get(i);
                     if (size.isDisplayed() && size.isEnabled()) {
                         WebElement clickableSize = wait.until(ExpectedConditions.elementToBeClickable(size));
                         clickableSize.click();
-                        // Wait for the size to be selected (attribute change)
+                        // Wait for any size option to be selected (avoiding stale reference)
+                        final int selectedIndex = i;
                         wait.until(driver -> {
-                            String selectedClass = size.getAttribute("class");
-                            return selectedClass != null && selectedClass.contains("selected");
+                            List<WebElement> updatedSizes = driver.findElements(sizeOptions);
+                            if (selectedIndex < updatedSizes.size()) {
+                                String selectedClass = updatedSizes.get(selectedIndex).getAttribute("class");
+                                return selectedClass != null && selectedClass.contains("selected");
+                            }
+                            return false;
                         });
                         break;
                     }
@@ -102,14 +108,20 @@ public class ProductPage {
             List<WebElement> colors = driver.findElements(colorOptions);
             if (!colors.isEmpty()) {
                 // Select first available color that is not disabled
-                for (WebElement color : colors) {
+                for (int i = 0; i < colors.size(); i++) {
+                    WebElement color = colors.get(i);
                     if (color.isDisplayed() && color.isEnabled()) {
                         WebElement clickableColor = wait.until(ExpectedConditions.elementToBeClickable(color));
                         clickableColor.click();
-                        // Wait for the color to be selected (attribute change)
+                        // Wait for any color option to be selected (avoiding stale reference)
+                        final int selectedIndex = i;
                         wait.until(driver -> {
-                            String selectedClass = color.getAttribute("class");
-                            return selectedClass != null && selectedClass.contains("selected");
+                            List<WebElement> updatedColors = driver.findElements(colorOptions);
+                            if (selectedIndex < updatedColors.size()) {
+                                String selectedClass = updatedColors.get(selectedIndex).getAttribute("class");
+                                return selectedClass != null && selectedClass.contains("selected");
+                            }
+                            return false;
                         });
                         break;
                     }
