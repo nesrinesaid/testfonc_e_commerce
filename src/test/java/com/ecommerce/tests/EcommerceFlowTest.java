@@ -39,7 +39,7 @@ public class EcommerceFlowTest extends BaseTest {
         Assert.assertTrue(cart.hasItems(), "Le panier devrait contenir au moins un article.");
     }
 
-    @Test(description = "Parcours checkout invité jusqu'au paiement", dependsOnMethods = "addProductToCart")
+    @Test(description = "Parcours checkout invité jusqu'au paiement")
     public void guestCheckoutFlow() {
         HomePage home = new HomePage(driver, wait);
         ProductPage product = home.search("bag").openProductByName("bag");
@@ -51,6 +51,11 @@ public class EcommerceFlowTest extends BaseTest {
 
         checkout.fillGuestShippingForm("qa+guest@example.com");
         checkout.selectShippingMethodAndContinue();
+        checkout.placeOrder();
+        
+        Assert.assertTrue(checkout.isOrderConfirmed(), "La commande n'a pas été confirmée.");
+        String orderNumber = checkout.getOrderNumber();
+        System.out.println("Order placed successfully with order number: " + orderNumber);
     }
 }
 
