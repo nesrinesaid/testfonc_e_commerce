@@ -84,6 +84,8 @@ public class ProductPage {
                 }
                 
                 // If we clicked a size, wait for at least one size to have 'selected' class
+                // Note: Re-querying elements on each iteration is intentional to avoid
+                // StaleElementReferenceException after DOM updates from the click
                 if (sizeSelected) {
                     wait.until(driver -> {
                         List<WebElement> updatedSizes = driver.findElements(sizeOptions);
@@ -121,6 +123,8 @@ public class ProductPage {
                 }
                 
                 // If we clicked a color, wait for at least one color to have 'selected' class
+                // Note: Re-querying elements on each iteration is intentional to avoid
+                // StaleElementReferenceException after DOM updates from the click
                 if (colorSelected) {
                     wait.until(driver -> {
                         List<WebElement> updatedColors = driver.findElements(colorOptions);

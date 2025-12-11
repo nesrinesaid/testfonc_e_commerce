@@ -24,6 +24,8 @@ public class DriverFactory {
         String browser = TestConfig.getBrowser().toLowerCase();
         
         // Set system property to use system chromedriver if Selenium Manager fails
+        // This is necessary as a fallback in CI environments with network restrictions
+        // where Selenium Manager cannot download the driver from the internet
         if ("chrome".equals(browser) && System.getProperty("webdriver.chrome.driver") == null) {
             String chromedriverPath = findSystemChromeDriver();
             if (chromedriverPath != null) {
