@@ -2,7 +2,9 @@ package com.ecommerce.tests;
 
 import com.ecommerce.config.DriverFactory;
 import com.ecommerce.config.TestConfig;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -58,12 +60,12 @@ public abstract class BaseTest {
             
             for (String selector : cookieSelectors) {
                 try {
-                    By cookieBy = org.openqa.selenium.By.cssSelector(selector);
+                    By cookieBy = By.cssSelector(selector);
                     var elements = driver.findElements(cookieBy);
                     if (!elements.isEmpty() && elements.get(0).isDisplayed()) {
                         elements.get(0).click();
                         // Wait for the element to disappear using the selector, not the cached element
-                        wait.until(org.openqa.selenium.support.ui.ExpectedConditions.invisibilityOfElementLocated(cookieBy));
+                        wait.until(ExpectedConditions.invisibilityOfElementLocated(cookieBy));
                         break;
                     }
                 } catch (Exception ignored) {

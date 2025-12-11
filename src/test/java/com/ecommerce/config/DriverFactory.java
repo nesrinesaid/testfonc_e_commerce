@@ -8,6 +8,8 @@ import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 
+import java.io.File;
+
 /**
  * Factory class for creating WebDriver instances.
  * Uses Selenium Manager (built into Selenium 4.6+) for automatic driver management.
@@ -73,7 +75,7 @@ public class DriverFactory {
         };
         
         for (String path : possiblePaths) {
-            java.io.File file = new java.io.File(path);
+            File file = new File(path);
             if (file.exists() && file.canExecute()) {
                 return path;
             }
