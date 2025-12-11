@@ -17,18 +17,16 @@ public class HomePage {
     }
 
     private WebElement findSearchInputElement() {
-        // Try multiple selectors in order of likelihood
+        // Try multiple selectors in order of likelihood for Magento 2
         By[] selectors = {
             By.id("search"),
-            By.cssSelector("input#search"),
-            By.cssSelector("form#search_mini_form input#search"),
+            By.cssSelector("#search"),
             By.cssSelector("input[name='q']"),
-            By.cssSelector("input[type='search']"),
-            By.cssSelector("input[placeholder*='Search']"),
-            By.cssSelector("input[aria-label*='Search']"),
-            By.cssSelector(".block-search input"),
-            By.xpath("//input[@id='search']"),
-            By.xpath("//input[contains(@placeholder, 'Search')]")
+            By.cssSelector("input#search[name='q']"),
+            By.cssSelector(".block-search input#search"),
+            By.cssSelector("form.form.minisearch input#search"),
+            By.cssSelector("input[type='text'][placeholder*='Search']"),
+            By.xpath("//input[@id='search' and @name='q']")
         };
         
         for (By selector : selectors) {
@@ -61,15 +59,14 @@ public class HomePage {
         searchElement.clear();
         searchElement.sendKeys(query);
         
-        // Try multiple selectors for search button
+        // Try multiple selectors for search button - Magento 2 specific
         By[] buttonSelectors = {
             By.cssSelector("button[title='Search']"),
-            By.cssSelector("button[type='submit'][aria-label*='Search']"),
             By.cssSelector("button.action.search"),
-            By.cssSelector("form#search_mini_form button[type='submit']"),
-            By.xpath("//button[@title='Search']"),
-            By.xpath("//button[contains(@class, 'search')]"),
-            By.xpath("//form[@id='search_mini_form']//button")
+            By.cssSelector(".block-search button[type='submit']"),
+            By.cssSelector("form.minisearch button"),
+            By.cssSelector("#search_mini_form button[type='submit']"),
+            By.xpath("//button[@title='Search']")
         };
         
         boolean buttonClicked = false;

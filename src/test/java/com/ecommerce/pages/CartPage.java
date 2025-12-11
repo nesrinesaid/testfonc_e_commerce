@@ -9,8 +9,8 @@ public class CartPage {
     private final WebDriver driver;
     private final WebDriverWait wait;
 
-    private final By cartItems = By.cssSelector("div.cart.item");
-    private final By proceedToCheckoutButton = By.cssSelector("button[data-role='proceed-to-checkout']");
+    private final By cartItems = By.cssSelector("tbody.cart.item, tr.item-info, li.item");
+    private final By proceedToCheckoutButton = By.cssSelector("button[data-role='proceed-to-checkout'], button.checkout, li.checkout button");
 
     public CartPage(WebDriver driver, WebDriverWait wait) {
         this.driver = driver;

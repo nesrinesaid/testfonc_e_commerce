@@ -13,12 +13,12 @@ public class ProductPage {
     private final WebDriver driver;
     private final WebDriverWait wait;
 
-    private final By sizeOptions = By.cssSelector("div.swatch-attribute.size .swatch-option");
-    private final By colorOptions = By.cssSelector("div.swatch-attribute.color .swatch-option");
-    private final By addToCartButton = By.id("product-addtocart-button");
-    private final By addedToCartToast = By.cssSelector("div.message-success");
-    private final By miniCartToggle = By.cssSelector("a.action.showcart");
-    private final By viewCartLink = By.cssSelector("a.action.viewcart");
+    private final By sizeOptions = By.cssSelector("div.swatch-attribute.size div.swatch-option");
+    private final By colorOptions = By.cssSelector("div.swatch-attribute.color div.swatch-option");
+    private final By addToCartButton = By.cssSelector("#product-addtocart-button");
+    private final By addedToCartToast = By.cssSelector("div[data-bind*='message'], div.message-success, div.messages div.message");
+    private final By miniCartToggle = By.cssSelector("a.showcart");
+    private final By viewCartLink = By.cssSelector("a.viewcart, div.minicart-wrapper a[href*='checkout/cart']");
 
     public ProductPage(WebDriver driver, WebDriverWait wait) {
         this.driver = driver;
