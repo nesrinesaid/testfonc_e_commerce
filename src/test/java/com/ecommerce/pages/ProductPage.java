@@ -75,8 +75,13 @@ public class ProductPage {
                 // Select first available size that is not disabled
                 for (WebElement size : sizes) {
                     if (size.isDisplayed() && size.isEnabled()) {
-                        wait.until(ExpectedConditions.elementToBeClickable(size)).click();
-                        Thread.sleep(500); // Brief pause for UI update
+                        WebElement clickableSize = wait.until(ExpectedConditions.elementToBeClickable(size));
+                        clickableSize.click();
+                        // Wait for the size to be selected (attribute change)
+                        wait.until(driver -> {
+                            String selectedClass = size.getAttribute("class");
+                            return selectedClass != null && selectedClass.contains("selected");
+                        });
                         break;
                     }
                 }
@@ -99,8 +104,13 @@ public class ProductPage {
                 // Select first available color that is not disabled
                 for (WebElement color : colors) {
                     if (color.isDisplayed() && color.isEnabled()) {
-                        wait.until(ExpectedConditions.elementToBeClickable(color)).click();
-                        Thread.sleep(500); // Brief pause for UI update
+                        WebElement clickableColor = wait.until(ExpectedConditions.elementToBeClickable(color));
+                        clickableColor.click();
+                        // Wait for the color to be selected (attribute change)
+                        wait.until(driver -> {
+                            String selectedClass = color.getAttribute("class");
+                            return selectedClass != null && selectedClass.contains("selected");
+                        });
                         break;
                     }
                 }

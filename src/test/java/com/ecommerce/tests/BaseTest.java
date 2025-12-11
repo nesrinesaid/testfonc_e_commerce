@@ -39,8 +39,6 @@ public abstract class BaseTest {
                 }
                 return true;
             });
-            // Additional small delay to ensure all elements are rendered
-            Thread.sleep(1000);
         } catch (Exception e) {
             // Continue even if readyState check fails
         }
@@ -63,7 +61,8 @@ public abstract class BaseTest {
                     var elements = driver.findElements(org.openqa.selenium.By.cssSelector(selector));
                     if (!elements.isEmpty() && elements.get(0).isDisplayed()) {
                         elements.get(0).click();
-                        Thread.sleep(500); // Brief pause after clicking
+                        // Wait for the element to disappear after clicking
+                        wait.until(org.openqa.selenium.support.ui.ExpectedConditions.invisibilityOf(elements.get(0)));
                         break;
                     }
                 } catch (Exception ignored) {
