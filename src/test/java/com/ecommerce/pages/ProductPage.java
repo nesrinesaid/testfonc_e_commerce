@@ -36,7 +36,7 @@ public class ProductPage {
         for (By selector : toastSelectors) {
             try {
                 WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(selector));
-                if (element != null && element.isDisplayed()) {
+                if (element.isDisplayed()) {
                     return element;
                 }
             } catch (Exception e) {
@@ -57,10 +57,7 @@ public class ProductPage {
         
         for (By selector : cartLinkSelectors) {
             try {
-                WebElement element = wait.until(ExpectedConditions.elementToBeClickable(selector));
-                if (element != null) {
-                    return element;
-                }
+                return wait.until(ExpectedConditions.elementToBeClickable(selector));
             } catch (Exception e) {
                 // Continue to next selector
             }

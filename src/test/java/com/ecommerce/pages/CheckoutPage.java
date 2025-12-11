@@ -23,7 +23,10 @@ public class CheckoutPage {
     private final By stateDropdown = By.cssSelector("select[name='region_id']");
     private final By postcodeField = By.cssSelector("input[name='postcode']");
     private final By phoneField = By.cssSelector("input[name='telephone']");
-    // Updated to use stable selector instead of dynamic ko_unique_*
+    // Shipping method selector: Uses both exact match and partial match
+    // - First selector: exact match for standard Magento shipping methods
+    // - Second selector: partial match with 'shipping' to handle table row contexts where method name might have prefixes
+    // Both avoid dynamic ko_unique_* IDs
     private final By shippingMethodRadio = By.cssSelector("input[type='radio'][name='shipping_method'], tr.row input[type='radio'][name*='shipping']");
     private final By nextButton = By.cssSelector("button.continue, button.action.continue");
     private final By paymentSection = By.cssSelector("#payment, div.payment-method");
@@ -39,14 +42,10 @@ public class CheckoutPage {
     public boolean isLoaded() {
         try {
             // Try to find either the email field or the shipping form container
-            try {
-                return wait.until(ExpectedConditions.or(
-                    ExpectedConditions.visibilityOfElementLocated(emailField),
-                    ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#shipping"))
-                )) != null;
-            } catch (Exception e) {
-                return false;
-            }
+            return wait.until(ExpectedConditions.or(
+                ExpectedConditions.visibilityOfElementLocated(emailField),
+                ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#shipping"))
+            )) != null;
         } catch (Exception e) {
             System.out.println("Checkout page not loaded: " + e.getMessage());
             return false;
