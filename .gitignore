@@ -1,1 +1,11 @@
 /bin/
+/target/
+.classpath
+.project
+.settings/
+.vscode/
+*.class
+*.log
+*.jar
+*.war
+*.ear
