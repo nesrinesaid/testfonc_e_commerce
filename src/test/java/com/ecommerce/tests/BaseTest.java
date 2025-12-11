@@ -2,7 +2,9 @@ package com.ecommerce.tests;
 
 import com.ecommerce.config.DriverFactory;
 import com.ecommerce.config.TestConfig;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -39,8 +41,6 @@ public abstract class BaseTest {
                 }
                 return true;
             });
-            // Additional small delay to ensure all elements are rendered
-            Thread.sleep(1000);
         } catch (Exception e) {
             // Continue even if readyState check fails
         }
@@ -60,10 +60,12 @@ public abstract class BaseTest {
             
             for (String selector : cookieSelectors) {
                 try {
-                    var elements = driver.findElements(org.openqa.selenium.By.cssSelector(selector));
+                    By cookieBy = By.cssSelector(selector);
+                    var elements = driver.findElements(cookieBy);
                     if (!elements.isEmpty() && elements.get(0).isDisplayed()) {
                         elements.get(0).click();
-                        Thread.sleep(500); // Brief pause after clicking
+                        // Wait for the element to disappear using the selector, not the cached element
+                        wait.until(ExpectedConditions.invisibilityOfElementLocated(cookieBy));
                         break;
                     }
                 } catch (Exception ignored) {

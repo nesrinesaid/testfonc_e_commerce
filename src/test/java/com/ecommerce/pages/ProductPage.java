@@ -73,12 +73,27 @@ public class ProductPage {
             List<WebElement> sizes = driver.findElements(sizeOptions);
             if (!sizes.isEmpty()) {
                 // Select first available size that is not disabled
+                boolean sizeSelected = false;
                 for (WebElement size : sizes) {
                     if (size.isDisplayed() && size.isEnabled()) {
-                        wait.until(ExpectedConditions.elementToBeClickable(size)).click();
-                        Thread.sleep(500); // Brief pause for UI update
+                        WebElement clickableSize = wait.until(ExpectedConditions.elementToBeClickable(size));
+                        clickableSize.click();
+                        sizeSelected = true;
                         break;
                     }
+                }
+                
+                // If we clicked a size, wait for at least one size to have 'selected' class
+                // Note: Re-querying elements on each iteration is intentional to avoid
+                // StaleElementReferenceException after DOM updates from the click
+                if (sizeSelected) {
+                    wait.until(driver -> {
+                        List<WebElement> updatedSizes = driver.findElements(sizeOptions);
+                        return updatedSizes.stream().anyMatch(s -> {
+                            String classAttr = s.getAttribute("class");
+                            return classAttr != null && classAttr.contains("selected");
+                        });
+                    });
                 }
             }
         } catch (TimeoutException e) {
@@ -97,12 +112,27 @@ public class ProductPage {
             List<WebElement> colors = driver.findElements(colorOptions);
             if (!colors.isEmpty()) {
                 // Select first available color that is not disabled
+                boolean colorSelected = false;
                 for (WebElement color : colors) {
                     if (color.isDisplayed() && color.isEnabled()) {
-                        wait.until(ExpectedConditions.elementToBeClickable(color)).click();
-                        Thread.sleep(500); // Brief pause for UI update
+                        WebElement clickableColor = wait.until(ExpectedConditions.elementToBeClickable(color));
+                        clickableColor.click();
+                        colorSelected = true;
                         break;
                     }
+                }
+                
+                // If we clicked a color, wait for at least one color to have 'selected' class
+                // Note: Re-querying elements on each iteration is intentional to avoid
+                // StaleElementReferenceException after DOM updates from the click
+                if (colorSelected) {
+                    wait.until(driver -> {
+                        List<WebElement> updatedColors = driver.findElements(colorOptions);
+                        return updatedColors.stream().anyMatch(c -> {
+                            String classAttr = c.getAttribute("class");
+                            return classAttr != null && classAttr.contains("selected");
+                        });
+                    });
                 }
             }
         } catch (TimeoutException e) {
