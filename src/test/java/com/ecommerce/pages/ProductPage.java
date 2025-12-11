@@ -13,16 +13,56 @@ public class ProductPage {
     private final WebDriver driver;
     private final WebDriverWait wait;
 
-    private final By sizeOptions = By.cssSelector("div.swatch-attribute.size .swatch-option");
-    private final By colorOptions = By.cssSelector("div.swatch-attribute.color .swatch-option");
-    private final By addToCartButton = By.id("product-addtocart-button");
-    private final By addedToCartToast = By.cssSelector("div.message-success");
-    private final By miniCartToggle = By.cssSelector("a.action.showcart");
-    private final By viewCartLink = By.cssSelector("a.action.viewcart");
+    private final By sizeOptions = By.cssSelector("div.swatch-attribute.size div.swatch-option");
+    private final By colorOptions = By.cssSelector("div.swatch-attribute.color div.swatch-option");
+    private final By addToCartButton = By.cssSelector("#product-addtocart-button");
+    private final By miniCartToggle = By.cssSelector("a.showcart");
 
     public ProductPage(WebDriver driver, WebDriverWait wait) {
         this.driver = driver;
         this.wait = wait;
+    }
+
+    /**
+     * Finds the success toast message using multiple fallback selectors
+     */
+    private WebElement findSuccessToast() {
+        By[] toastSelectors = {
+            By.cssSelector("div[data-bind*='message']"),
+            By.cssSelector("div.message-success"),
+            By.cssSelector("div.messages div.message")
+        };
+        
+        for (By selector : toastSelectors) {
+            try {
+                WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(selector));
+                if (element.isDisplayed()) {
+                    return element;
+                }
+            } catch (Exception e) {
+                // Continue to next selector
+            }
+        }
+        throw new org.openqa.selenium.NoSuchElementException("Could not find success toast with any of the tried selectors");
+    }
+
+    /**
+     * Finds the view cart link using multiple fallback selectors
+     */
+    private WebElement findViewCartLink() {
+        By[] cartLinkSelectors = {
+            By.cssSelector("a.viewcart"),
+            By.cssSelector("div.minicart-wrapper a[href*='checkout/cart']")
+        };
+        
+        for (By selector : cartLinkSelectors) {
+            try {
+                return wait.until(ExpectedConditions.elementToBeClickable(selector));
+            } catch (Exception e) {
+                // Continue to next selector
+            }
+        }
+        throw new org.openqa.selenium.NoSuchElementException("Could not find view cart link with any of the tried selectors");
     }
 
     /**
@@ -81,11 +121,11 @@ public class ProductPage {
             
             // Add to cart
             wait.until(ExpectedConditions.elementToBeClickable(addToCartButton)).click();
-            wait.until(ExpectedConditions.visibilityOfElementLocated(addedToCartToast));
+            findSuccessToast(); // Wait for success message
             
             // Open cart
             wait.until(ExpectedConditions.elementToBeClickable(miniCartToggle)).click();
-            wait.until(ExpectedConditions.elementToBeClickable(viewCartLink)).click();
+            findViewCartLink().click(); // Use helper method
             return new CartPage(driver, wait);
         } catch (TimeoutException e) {
             throw new RuntimeException("Failed to add product to cart: " + e.getMessage(), e);
